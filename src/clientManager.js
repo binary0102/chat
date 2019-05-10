@@ -1,14 +1,14 @@
-export function Manager() {
-    const clients = new Map();
-    
-    function addClient(client) {
-        clients.set(client.id, client);
-    }
-    function removeClient(client) {
-        clients.delete(client.id);
+import UserModel from './model/user.model'
+export default function clientManager() {
+    function getUserById(userId) {
+        return UserModel.findOne({_id: userId})
+        .then(doc => (doc.toObject()))
+        .then(value => ( value._id.toString()))
+        .then(value => {
+            return value;
+        })
     }
     return {
-        addClient,
-        removeClient
+        getUserById
     }
 }
