@@ -16,7 +16,10 @@ export default function ThreadManager() {
         members.set(client.decoded.id, client);
     }
     function broadcastMessage(message) {
-        members.forEach(m => m.emit('messagereceived', message))
+        members.forEach((m) => {
+        
+            m.emit('messagereceived', message)
+        })
     }
     function getChatHistory(threadId, skip) {
 
@@ -43,7 +46,9 @@ export default function ThreadManager() {
                         return {
                             avatar: user.avatar,
                             id: user._id,
-                            name: `${user.first_name} ${user.last_name}`
+                            name: `${user.first_name} ${user.last_name}`,
+                            first_name: user.first_name,
+                            last_name : user.last_name,
                         };
                     })
                 })
@@ -74,6 +79,7 @@ export default function ThreadManager() {
                             updated_at: thread.updated_at,
                             _id: thread.id,
                             name: thread.name,
+                        
                         }
 
                     })
@@ -98,7 +104,7 @@ export default function ThreadManager() {
 
     }
     function addMessageOfThread({ message, threadId, clientId }) {
-
+      
         if (message !== "") {
             let messageObj = new MessageModel({ client_id: clientId, message: message, thread_id: threadId, created_at: Date.now() });
             return messageObj.save().then(doc => {

@@ -33,10 +33,9 @@ function makeHandleEvent(client) {
     }
     function handleEvent(message,threadId,callback ) {
         return  ensureValidThreadAndUser(threadId).then(({threadId, clientId}) => {
-            //save messags
-           
-          threadManager.addMessageOfThread({message,threadId,clientId}).then(doc => {
-      
+         
+         threadManager.addMessageOfThread({message,threadId,clientId}).then(doc => {
+          
             threadManager.broadcastMessage(doc);
           });
             
@@ -64,6 +63,7 @@ function makeHandleEvent(client) {
 export const makeHandlers  = (client) => {
    const {handleEvent,handleJoinThread} = makeHandleEvent(client)
     const handleMessage = (message,threadId, callback) => {
+          
           handleEvent(message,threadId,callback);
      
     }
@@ -73,7 +73,7 @@ export const makeHandlers  = (client) => {
     }
   
     const handleGetThreads = (userId, callback) => {
-   
+       
         threadManager.serializeChatrooms(userId)
         .then((threads) => {
             
